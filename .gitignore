@@ -1,0 +1,18 @@
+# MATLAB & Simulink
+*.asv
+*.bak
+*.log
+*.tmp
+*.autosave
+*.mex*
+*.pdb
+*.orig
+*.slxc
+*_ert_rtw/
+*_grt_rtw/
+*_slrt_rtw/
+*_usr_rtw/
+slprj/
+sfprj/
+_pre/
+MATLAB_Editor_R*_pr/
