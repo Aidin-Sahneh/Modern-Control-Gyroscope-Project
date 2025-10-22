@@ -9,7 +9,6 @@ This repository contains the full MATLAB project for the "Modern Control" course
 
 -   Amirhossein Shaqaqi (Student ID: 40119843)
 
-*(This plot shows the final observer-based LQR controller successfully stabilizing the non-linear system)*
 
 Project Summary
 ---------------
@@ -60,7 +59,7 @@ How to Run
 1.  Clone this repository:
 
     ```
-    git clone [https://github.com/Aidin-Sahneh/Modern-Control-Gyroscope-Project.git](https://github.com/Aidin-Sahneh/Modern-Control-Gyroscope-Project.git)
+    git clone https://github.com/Aidin-Sahneh/Modern-Control-Gyroscope-Project.git
 
     ```
 
@@ -88,7 +87,7 @@ Repository Structure
 Modern-Control-Gyroscope-Project/
 ├── .gitignore         # Ignores MATLAB temporary files
 ├── LICENSE            # MIT License
-├── README.md          # This file
+├── README.md          
 │
 ├── report/
 │   └── Report.pdf     # The full project report
