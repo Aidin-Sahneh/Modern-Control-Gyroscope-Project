@@ -1,0 +1,83 @@
+clear;
+clc;
+close all;
+
+tspan = [0 20];
+x0 = [0; 0; 0; 0];
+
+Tz_step_func = @(t) 1 * (t >= 0); 
+Ty_step_func = @(t) 1 * (t >= 0); 
+
+Tz_ramp_func = @(t) t .* (t >= 0); 
+Ty_ramp_func = @(t) t .* (t >= 0); 
+
+impulse_duration = 0.01;
+impulse_height = 1 / impulse_duration;
+Tz_impulse_func = @(t) impulse_height * ((t >= 0) & (t < impulse_duration));
+Ty_impulse_func = @(t) impulse_height * ((t >= 0) & (t < impulse_duration));
+
+[t_step, x_step] = ode45(@(t, x) nonlinear_system(t, x, Tz_step_func, Ty_step_func), tspan, x0);
+fig1 = figure('Name', 'Unit Step Response');
+subplot(4,1,1);
+plot(t_step, x_step(:,1), 'LineWidth', 1.5);
+title('Unit Step Response');
+ylabel('x_1');
+grid on;
+subplot(4,1,2);
+plot(t_step, x_step(:,2), 'LineWidth', 1.5);
+ylabel('x_2');
+grid on;
+subplot(4,1,3);
+plot(t_step, x_step(:,3), 'LineWidth', 1.5);
+ylabel('x_3');
+grid on;
+subplot(4,1,4);
+plot(t_step, x_step(:,4), 'LineWidth', 1.5);
+xlabel('Time (s)');
+ylabel('x_4');
+grid on;
+saveas(fig1, 'step_response.png');
+
+[t_ramp, x_ramp] = ode45(@(t, x) nonlinear_system(t, x, Tz_ramp_func, Ty_ramp_func), tspan, x0);
+fig2 = figure('Name', 'Unit Ramp Response');
+subplot(4,1,1);
+plot(t_ramp, x_ramp(:,1), 'LineWidth', 1.5);
+title('Unit Ramp Response');
+ylabel('x_1');
+grid on;
+subplot(4,1,2);
+plot(t_ramp, x_ramp(:,2), 'LineWidth', 1.5);
+ylabel('x_2');
+grid on;
+subplot(4,1,3);
+plot(t_ramp, x_ramp(:,3), 'LineWidth', 1.5);
+ylabel('x_3');
+grid on;
+subplot(4,1,4);
+plot(t_ramp, x_ramp(:,4), 'LineWidth', 1.5);
+xlabel('Time (s)');
+ylabel('x_4');
+grid on;
+saveas(fig2, 'ramp_response.png');
+
+[t_impulse, x_impulse] = ode45(@(t, x) nonlinear_system(t, x, Tz_impulse_func, Ty_impulse_func), tspan, x0);
+fig3 = figure('Name', 'Unit Impulse Response');
+subplot(4,1,1);
+plot(t_impulse, x_impulse(:,1), 'LineWidth', 1.5);
+title('Unit Impulse Response');
+ylabel('x_1');
+grid on;
+subplot(4,1,2);
+plot(t_impulse, x_impulse(:,2), 'LineWidth', 1.5);
+ylabel('x_2');
+grid on;
+subplot(4,1,3);
+plot(t_impulse, x_impulse(:,3), 'LineWidth', 1.5);
+ylabel('x_3');
+grid on;
+subplot(4,1,4);
+plot(t_impulse, x_impulse(:,4), 'LineWidth', 1.5);
+xlabel('Time (s)');
+ylabel('x_4');
+grid on;
+saveas(fig3, 'impulse_response.png');

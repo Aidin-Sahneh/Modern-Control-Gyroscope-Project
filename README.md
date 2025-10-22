@@ -1,0 +1,108 @@
+Modern Control Project: Modeling and Control of a Free Gyroscope
+================================================================
+
+This repository contains the full MATLAB project for the "Modern Control" course (Instructor: Dr. Moaveni) at K.N. Toosi University. The project covers the end-to-end process of modeling a non-linear gyroscope system, analyzing its properties, and designing a series of advanced controllers to stabilize it and track desired positions.
+
+**Authors:**
+
+-   Aidin Sahneh (Student ID: 40120243)
+
+-   Amirhossein Shaqaqi (Student ID: 40119843)
+
+*(This plot shows the final observer-based LQR controller successfully stabilizing the non-linear system)*
+
+Project Summary
+---------------
+
+The core task is to analyze and control a non-linear gyroscope with two degrees of freedom. The project is structured by 13 key tasks, moving from basic modeling to advanced observer-based control.
+
+### 1\. Modeling and Analysis (Q1-Q7)
+
+-   **Non-Linear Modeling (Q1):** Derived the non-linear differential equations and state-space representation for the gyroscope.
+
+-   **Open-Loop Simulation (Q2-Q4):** Simulated the non-linear model in MATLAB (`ode45`) and Simulink to analyze its open-loop behavior.
+
+    -   **Key Finding:** The system is inherently unstable. When starting from any non-equilibrium state, even with zero velocity, the system enters an unstable oscillatory mode. It is also unstable in response to step, ramp, and impulse inputs.
+
+-   **Linearization (Q5):** Linearized the system around the origin ($x_{op}=0, u_{op}=0$) using the Jacobian method.
+
+    -   **Key Finding:** The linearized system is **marginally unstable**, with eigenvalues on the imaginary axis at $\lambda = \{0, 0, +100i, -100i\}$.
+
+-   **Model Comparison (Q6):** Compared the linear and non-linear models.
+
+    -   **Key Finding:** The linearized model is only valid *very* close to the origin. For initial conditions far from the origin (e.g., $x_0 = [1, 0, \pi/4, 0]^T$), the linear model *completely fails* to predict the true, unstable behavior of the non-linear system.
+
+-   **System Properties (Q7):** Analyzed the linearized system for controllability and observability.
+
+    -   **Key Finding:** Using the Kalman rank test, PBH test, and Jordan Canonical Form, the system was confirmed to be **fully controllable and fully observable**.
+
+### 2\. Controller Design and Implementation (Q8-Q13)
+
+-   **Pole Placement Stabilization (Q8):** Designed a state-feedback controller ($u=-Kx$) to place the system poles at $\{-1, -2, -3, -4\}$, which successfully stabilized the non-linear system.
+
+-   **Performance vs. Effort (Q9):** A comparative analysis showing the trade-off between response speed (faster poles) and the required control effort (actuator saturation).
+
+-   **Static Pre-compensator Tracking (Q10):** Designed a tracking controller ($u = -Kx + N_r r$) to follow non-zero setpoints, demonstrating zero steady-state error.
+
+-   **Integral Control Tracking (Q11):** Designed a more robust tracking controller by augmenting the system with an integrator state ($x_a = [x; x_i]$), which also achieves robust zero steady-state error.
+
+-   **Luenberger Observer Design (Q12):** Designed a Luenberger observer to estimate the system's full state (including unmeasurable velocities) from its outputs (measurable angles).
+
+-   **Observer-Based LQR Control (Q13):** The final and most significant task.
+
+    -   **Initial Failure:** A standard observer-based controller ($u=-K\hat{x}$) failed, as the **Separation Principle does not hold** for this non-linear system. The initial estimation error caused the controller to destabilize the plant.
+
+    -   **Successful Solution:** A robust solution was achieved using a "gentle" **LQR controller** (with a high penalty on control effort) combined with a carefully tuned observer. This final design successfully stabilized the non-linear system.
+
+How to Run
+----------
+
+1.  Clone this repository:
+
+    ```
+    git clone [https://github.com/Aidin-Sahneh/Modern-Control-Gyroscope-Project.git](https://github.com/Aidin-Sahneh/Modern-Control-Gyroscope-Project.git)
+
+    ```
+
+2.  Open the `Modern-Control-Gyroscope-Project` folder in MATLAB.
+
+3.  Navigate into the `matlab/` directory.
+
+4.  You can run the main scripts for each question individually to reproduce the results from the report.
+
+    **Example:** To run the simulation for Question 8 (Pole Placement):
+
+    ```
+    % This will calculate the gain K and run the simulation
+    % using the 'closed_loop_nonlinear_system.m' function.
+    q8_pole_placement
+
+    ```
+
+    The resulting plots will be saved in the `results/` folder.
+
+Repository Structure
+--------------------
+
+```
+Modern-Control-Gyroscope-Project/
+├── .gitignore         # Ignores MATLAB temporary files
+├── LICENSE            # MIT License
+├── README.md          # This file
+│
+├── report/
+│   └── Report.pdf     # The full project report
+│
+├── matlab/            # All MATLAB source code
+│   ├── *.m            # Reusable function files
+│   ├── q*.m           # Main runnable scripts for each question
+│
+└── results/
+    ├── *.png          # All plots and figures generated by the scripts
+
+```
+
+License
+-------
+
+This project is licensed under the MIT License.
